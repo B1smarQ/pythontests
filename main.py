@@ -11,6 +11,6 @@ async def root():
     return {"message":"Hello World"}
 
 @app.get("/hello")
-async def hello():
-    return {"message": add_two(2,2)}
+async def hello(a: int, b: int):
+    return {"message": add_two(a, b)}
 

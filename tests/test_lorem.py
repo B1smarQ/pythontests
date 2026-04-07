@@ -11,6 +11,6 @@ class TestMethod(unittest.TestCase):
 
     def test_hello(self):
         fetch_url = "http://127.0.0.1:8000/hello"
-        response = requests.get(fetch_url)
-        self.assertEqual(response.status_code,200)
-        self.assertEqual(response.json(), {"message": 4})
+        response = requests.get(fetch_url, params={"a": 3, "b": 7})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json(), {"message": 10})

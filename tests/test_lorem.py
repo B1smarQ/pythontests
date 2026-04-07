@@ -13,4 +13,4 @@ class TestMethod(unittest.TestCase):
         fetch_url = "http://127.0.0.1:8000/hello"
         response = requests.get(fetch_url)
         self.assertEqual(response.status_code,200)
-        self.assertEqual(response.json(), {"message": "Lorem Ipsum"})
+        self.assertEqual(response.json(), {"message": 4})

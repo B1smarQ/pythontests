@@ -12,4 +12,5 @@ async def root():
 
 @app.get("/hello")
 async def hello():
-    return {"message": "Lorem Ipsum"}
+    return {"message": add_two(2,2)}
+

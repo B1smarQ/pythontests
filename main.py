@@ -1,14 +1,15 @@
-from fastapi import FastAPI 
+from fastapi import FastAPI
 
 app = FastAPI()
+
+
+def add_two(a, b):
+    return a + b
 
 @app.get("/")
 async def root():
     return {"message":"Hello World"}
 
-
-def main():
-    pass 
-
-if __name__ == "__main__":
-    main()
+@app.get("/hello")
+async def hello():
+    return {"message": "Lorem Ipsum"}

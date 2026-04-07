@@ -19,5 +19,26 @@ jobs:
           python-version: 3.14.0
       - name: Install dependencies
         run: pip install -r requirements.txt
-      - name: Run tests
-        run: python -m unittest discover -s tests -p 'test_*.py'
+      - name: Start server and run tests
+        run: |
+          python -m uvicorn main:app --host 127.0.0.1 --port 8000 &
+          UVICORN_PID=$!
+          READY=0
+          for i in $(seq 1 30); do
+            if curl -sf http://127.0.0.1:8000/ > /dev/null; then
+              echo "Server is up"
+              READY=1
+              break
+            fi
+            sleep 1
+          done
+          if [ "$READY" != 1 ]; then
+            echo "Server failed to start"
+            kill $UVICORN_PID 2>/dev/null || true
+            exit 1
+          fi
+          python -m unittest discover -s tests -p 'test_*.py'
+          TEST_EXIT=$?
+          kill $UVICORN_PID 2>/dev/null || true
+          wait $UVICORN_PID 2>/dev/null || true
+          exit $TEST_EXIT
